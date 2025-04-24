@@ -1,0 +1,21 @@
+{
+    "name": "Captcha-Solver",
+    "description": "Extension to solve basic alphanumeric captions",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "main.js"
+    },
+    "action": {
+        "default_title": "Click", 
+        "default_popup": "popup.html",
+        "default_icon": "logo.png"
+    },
+    "permissions": [
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://aims.iith.ac.in/*"
+    ]
+}
