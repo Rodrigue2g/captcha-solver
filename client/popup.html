@@ -1,91 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Captcha OCR Demo</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.18.0"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Captcha popup</title>
+    <link rel="stylesheet" href="./popup.css">
 </head>
-<body>
-  <h1>Captcha OCR</h1>
-  <input type="file" accept="image/*" id="imageInput" />
-  <br><br>
-  <canvas id="canvas" style="display:none;"></canvas>
-  <p id="output">Prediction: </p>
+<body >
+    <div id="Idle" >
+    <nav id="nav">
+     <img src="./logo.png" height="100px" width="150px" alt="">
+     <p id="right">Autofill</p>
+    </nav>
+    <div class="main" >
+        <div id="dataNotSaved" >
+      <input placeholder="Roll no." id="id" type="text" >
+      <input placeholder="Password" id="pass" type="password" >
+      <button id="go" >Login</button>
+      <button id="clear">Clear Data</button>
+    </div>
 
-  <script>
-    let model;
-    const imgWidth = 200;  // Replace with your actual model input size
-    const imgHeight = 50;  // Replace with your actual model input size
-    const blankIndex = 62; // Adjust if your model has more/fewer characters
+    </div>
+</div>
 
-    // Load the model
-    async function loadModel() {
-      model = await tf.loadLayersModel("final_model/model.json");
-      console.log("Model loaded");
-    }
+<div id="running" style="display: none;">
+<p class="running" id="p-run">Running... Please wait</p>
+</div>
 
-    // Handle file input
-    document.getElementById("imageInput").addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const img = new Image();
-      img.onload = async () => {
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = imgWidth;
-        canvas.height = imgHeight;
-        ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
-
-        // Get grayscale image data
-        const imageData = ctx.getImageData(0, 0, imgWidth, imgHeight);
-        const grayscale = [];
-        for (let i = 0; i < imageData.data.length; i += 4) {
-          // grayscale = 0.299 * R + 0.587 * G + 0.114 * B
-          const r = imageData.data[i];
-          const g = imageData.data[i + 1];
-          const b = imageData.data[i + 2];
-          const gray = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
-          grayscale.push(gray);
-        }
-
-        // Convert to tensor: shape [1, imgWidth, imgHeight, 1]
-        const input = tf.tensor4d(grayscale, [1, imgHeight, imgWidth, 1]);
-
-        // Predict
-        const prediction = model.predict(input);
-        const scores = await prediction.array();
-
-        // Decode greedy per timestep
-        const timestepPreds = scores[0].map(timestep =>
-          timestep.indexOf(Math.max(...timestep))
-        );
-
-        const decoded = decodeCTCGreedy(timestepPreds, blankIndex);
-
-        // Convert back to characters
-        const charMap = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        const predictionText = decoded.map(i => charMap[i] || "").join("");
-
-        document.getElementById("output").textContent = "Prediction: " + predictionText;
-      };
-
-      img.src = URL.createObjectURL(file);
-    });
-
-    function decodeCTCGreedy(predictions, blank) {
-      let output = [];
-      let prev = null;
-      for (const idx of predictions) {
-        if (idx !== blank && idx !== prev) {
-          output.push(idx);
-        }
-        prev = idx;
-      }
-      return output;
-    }
-
-    loadModel();
-  </script>
+   
+    <script src="./background.js"></script>
 </body>
 </html>

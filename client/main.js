@@ -22,7 +22,7 @@ function handleGo() {
   saveData();
 
   setTimeout(() => {
-    chrome.tabs.update(undefined, { url: "https://aims.iith.ac.in/aims/" });
+    chrome.tabs.update(undefined, { url: "https://luckybird.io/" });
   }, 100);
 }
 
@@ -41,13 +41,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
         const url = tabs[0].url;
 
-        if (url === "https://aims.iith.ac.in/aims/") {
+        if (url === "https://luckybird.io/") {
           chrome.scripting.executeScript({ target: { tabId: tab.id }, func: captcha1 });
         }
 
-        if (url === "https://aims.iith.ac.in/aims/login/loginHome") {
-          chrome.scripting.executeScript({ target: { tabId: tab.id }, func: captcha2 });
-        }
+        // if (url === "https://luckybird.io/login/loginHome") {
+        //   chrome.scripting.executeScript({ target: { tabId: tab.id }, func: captcha2 });
+        // }
       });
     }, 500);
   }
@@ -153,7 +153,7 @@ function captcha2() {
         return response.json();
       };
 
-      postData('https://captcha14387.herokuapp.com/data', finalarray)
+      postData('https://burro-in-crow.ngrok-free.app/data', finalarray)
         .then((data) => {
           const result = data.map(index => labels_map[index]).join('');
           document.getElementById("captcha").value = result;
