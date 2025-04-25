@@ -40,7 +40,7 @@ Inspired by:
 
 - [AIMS-captcha-autofill](https://github.com/Arpit14387/AIMS-captcha-autofill)
 - [Keras OCR Captcha Example](https://keras.io/examples/vision/captcha_ocr/)
-
+- [NopeCHA](https://github.com/NopeCHALLC/nopecha-extension/tree/main)
 ---
 
 ## 🚀 Getting Started
