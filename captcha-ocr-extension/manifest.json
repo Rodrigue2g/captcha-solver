@@ -1,0 +1,14 @@
+{
+  "name": "Captcha Solver",
+  "description": "Solve CAPTCHA via upload",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon128.png"
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://burro-in-crow.ngrok-free.app/*"
+  ]
+}

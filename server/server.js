@@ -17,7 +17,10 @@
 "use strict";
 import express from 'express';
 import cors from "cors";
-import { predictCaptcha } from './captcha.js';
+import { predictCaptchaFromImage } from './captcha.js';
+import bodyParser from "body-parser";
+
+const jsonParser = bodyParser.json({ limit: "10mb" });
 
 const  ENABLE_HTTPS = process.env.ENABLE_HTTPS === 'true';
 
@@ -44,22 +47,23 @@ try {
         }
     });
     
-
     app.post("/data", jsonParser, async (req, res) => {
         try {
-            const data = req.body.array;
-            console.log("Received data:", data);
-        
-            const result = await predictCaptcha(data);
-            return res.send(result);
+          const { base64 } = req.body;
+          console.log("Received data:", base64);
+          if (!base64) {
+            return res.status(400).send("Missing base64 image data.");
+          }
+          const result = await predictCaptchaFromImage(base64);
+          return res.send({ result });
         } catch (err) {
-            console.error("Prediction error:", err);
-            return res.status(500).send("Prediction failed.");
+          console.error("Prediction error:", err);
+          return res.status(500).send("Prediction failed.");
         }
-    });
+    });      
       
    
-    app.get('*', (req, res) => {
+    app.get(/(.*)/, (req, res) => {
         return res.status(400).send("Not Found.");
     });
 

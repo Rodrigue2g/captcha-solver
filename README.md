@@ -1,6 +1,6 @@
 # 🔐 captcha-solver
 
-A Chrome Extension that automates login for the [AIMS portal at IITH](https://aims.iith.ac.in/aims/) by solving captchas using a custom OCR model and a Node.js server.
+A Chrome Extension that automates solving captchas on [luckybird.io](https://luckybird.io/) by using a custom OCR model and a Node.js server.
 
 ---
 
@@ -74,6 +74,16 @@ node index.js
 By default, the server listens at `http://localhost:3000` and handles POST requests to `/data`.
 
 > If deploying publicly (e.g. Heroku, Render, Railway), update the URL in `popup.js` or the `captcha2()` function in the extension to match the deployed endpoint.
+
+To deploy publicly for free, you can then set up an [ngrok tunnel](https://ngrok.com/our-product/secure-tunnels) to your localhost:
+```
+ngrok http 8080
+```
+
+++ Or with a [static domain](https://ngrok.com/blog-post/free-static-domains-ngrok-users) (remains the same) that you can get from your [ngrok dashboard](https://dashboard.ngrok.com/domains):
+```
+ngrok http --domain=<static-domain-from-ngrok> 8080
+```
 
 ---
 

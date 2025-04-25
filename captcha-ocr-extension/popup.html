@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Captcha Solver</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      width: 250px;
+      padding: 20px;
+    }
+    #output {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #fileInput {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Upload CAPTCHA</h3>
+  <input type="file" id="fileInput" accept="image/*" />
+  <div id="output">Waiting...</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

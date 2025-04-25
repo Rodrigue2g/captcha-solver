@@ -1,5 +1,7 @@
 let id, pass;
 
+//el-image__inner
+
 document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.sync.get(['captchaId', 'captchaPass'], (result) => {
     if (result.captchaId) document.getElementById("id").value = result.captchaId;
